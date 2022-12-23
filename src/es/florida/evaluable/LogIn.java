@@ -19,7 +19,7 @@ public class LogIn extends JFrame {
 	private JButton btnAcceder;
 
 	/**
-	 * Create the frame.
+	 * Metodo que crea el frame para realizar el login de usuario
 	 */
 	public LogIn() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,28 +29,28 @@ public class LogIn extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		textFieldUser = new JTextField();
 		textFieldUser.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 13));
 		textFieldUser.setBounds(92, 11, 254, 26);
 		contentPane.add(textFieldUser);
 		textFieldUser.setColumns(10);
-		
+
 		JLabel lblUsuario = new JLabel("Usuario");
 		lblUsuario.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 13));
 		lblUsuario.setBounds(15, 13, 54, 23);
 		contentPane.add(lblUsuario);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 13));
 		passwordField.setBounds(92, 48, 254, 26);
 		contentPane.add(passwordField);
-		
+
 		lblContrasenya = new JLabel("Contraseña");
 		lblContrasenya.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 13));
 		lblContrasenya.setBounds(15, 48, 72, 25);
 		contentPane.add(lblContrasenya);
-		
+
 		btnAcceder = new JButton("Acceder");
 		btnAcceder.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 13));
 		btnAcceder.setBounds(249, 81, 97, 23);

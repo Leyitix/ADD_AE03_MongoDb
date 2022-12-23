@@ -37,10 +37,19 @@ public class Modelo {
 
 	Popup popup;
 
+	/**
+	 * Metodo constructor de la clase Modelo
+	 * 
+	 * @param popup frame que contiene los datos del libro
+	 */
 	Modelo(Popup popup) {
 		this.popup = popup;
 	}
 
+	/**
+	 * Metodo que sirve para crear la conexión con la base de datos
+	 * 
+	 */
 	public void conectareBd() {
 
 		try {
@@ -52,6 +61,7 @@ public class Modelo {
 			while ((linea = br.readLine()) != null) {
 				lineasJson += linea;
 			}
+
 			br.close();
 
 			JSONObject jsO = new JSONObject(lineasJson);
@@ -70,11 +80,19 @@ public class Modelo {
 			setColeccionLibros(database.getCollection(libros));
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			JOptionPane.showMessageDialog(new JFrame(), "No se ha puede crear la conexión con la base de datos",
+					"Conexión base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
 
+	/**
+	 * Metodo que convierte una contraseña en texto plano a SHA256
+	 * 
+	 * @param password Contrasenya introducida por el usuario
+	 * 
+	 * @return sb.toString() Devuelve la contrasenya encriptada
+	 */
 	public String convertirSHA256(String password) {
 		MessageDigest md = null;
 		try {
@@ -94,6 +112,17 @@ public class Modelo {
 		return sb.toString();
 	}
 
+	/**
+	 * Metodo que comprueba si la contrasenya y el nombre de usuario que se
+	 * introduce conincide con el que se encuentra en la base de datos
+	 * 
+	 * @param user     Nombre de usuario
+	 * 
+	 * @param password Contraseña del usuario
+	 * 
+	 * @return isAccess() Retorna un boolean con el permiso de acceso a la
+	 *         aplicacion
+	 */
 	public boolean login(String user, String password) {
 
 		MongoCursor<Document> cursor = getColeccionUsuarios().find().iterator();
@@ -110,6 +139,11 @@ public class Modelo {
 		return isAccess();
 	}
 
+	/**
+	 * Metodo que muestra el total de libros que se encuentran en la base de datos
+	 * 
+	 * @return libros Retorna el id y el titulo de cada uno de los libros
+	 */
 	public ArrayList<String> mostrarResumen() {
 
 		ArrayList<String> libros = new ArrayList<String>();
@@ -127,6 +161,24 @@ public class Modelo {
 		return libros;
 	}
 
+	/**
+	 * Metodo que anyade un nuevo documento a la base de datos
+	 * 
+	 * @param titulo     Titulo que introduce el usuario
+	 * 
+	 * @param autor      Nombre del autor/a del libro
+	 * 
+	 * @param anyoNac    Anyo de nacimiento del autor/a
+	 * 
+	 * @param anyoPub    Anyo de publicacion del libro
+	 * 
+	 * @param editorial  Editorial del libro
+	 * 
+	 * @param numPag     Numero de paginas del libro
+	 * 
+	 * @param rutaImagen Ruta al directorio en el que se encuentra la imagen de
+	 *                   portada del libro
+	 */
 	public void anyadirLibro(String titulo, String autor, String anyoNac, String anyoPub, String editorial,
 			String numPag, String rutaImagen) throws IOException {
 
@@ -174,6 +226,15 @@ public class Modelo {
 
 	}
 
+	/**
+	 * Metodo que recoge los datos de un determinado documento y los devuelve en un
+	 * array de strings
+	 * 
+	 * @param libroSeleccionado Recibe como parametro el id del libro seleccionado
+	 * 
+	 * @return String[] data Devuelve todos los datos de un libro determinado
+	 *         contenidos en un array de Strings
+	 */
 	public String[] cargarTextInput(Integer libroSeleccionado) {
 
 		Document document = getColeccionLibros().find(Filters.eq("Id", libroSeleccionado)).first();
@@ -214,15 +275,30 @@ public class Modelo {
 		return data;
 	}
 
+	/**
+	 * Metodo que decodifica un String en base 64 y lo transforma a un BufferedImage
+	 * 
+	 * @param string64 Recibe el string en base 64 desde la base de datos
+	 * 
+	 * @return retorna la imagen
+	 */
 	public BufferedImage decodificarString(String string64) throws IOException {
 		byte[] btDataFile = Base64.decodeBase64(string64);
 		BufferedImage imagen = ImageIO.read(new ByteArrayInputStream(btDataFile));
 		return imagen;
 	}
 
-	public String imagenABytes(String nombre) throws IOException {
+	/**
+	 * Transforma una imagen que la aplicacion recibe desde una ruta determinada y
+	 * codifica a encodeBase64String
+	 * 
+	 * @param ruta Ruta en la que se encuentra la imagen
+	 * 
+	 * @return encodedString Devuelve la imagen codificada
+	 */
+	public String imagenABytes(String ruta) throws IOException {
 
-		File fichero = new File(nombre);
+		File fichero = new File(ruta);
 		String encodedString;
 
 		try {
@@ -238,6 +314,16 @@ public class Modelo {
 
 	}
 
+	/**
+	 * Metodo que almacena una copia de la imagen de al base de datos en un
+	 * directorio del proyecto
+	 * 
+	 * @param imagen Recibe la imagen decodificada
+	 * 
+	 * @param id     Recibe el id del libro para nombrar la imagen
+	 * 
+	 * 
+	 */
 	public void guardarPng(BufferedImage imagen, String id) {
 		String nombre = id + ".png";
 		File outputfile = new File("images/" + nombre);
@@ -248,6 +334,13 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Metodo que permite mostrar la imagen en la interfaz
+	 * 
+	 * @param nombreImagen Recibe el nombre de la imagen que se quiere mostrar
+	 * 
+	 * @return imageIcon Devuelve el icon a mostrar en la interfaz
+	 */
 	public ImageIcon leerMostrarImagen(String nombreImagen) throws IOException {
 		File fichero;
 		Image imagen;
@@ -275,6 +368,26 @@ public class Modelo {
 
 	}
 
+	/**
+	 * Metodo que modifica el libro seleccionado por el usuario
+	 * 
+	 * @param titulo     Titulo que introduce el usuario
+	 * 
+	 * @param autor      Nombre del autor/a del libro
+	 * 
+	 * @param anyNac     Anyo de nacimiento del autor/a
+	 * 
+	 * @param anyPub     Anyo de publicacion del libro
+	 * 
+	 * @param editorial  Editorial del libro
+	 * 
+	 * @param numPag     Numero de paginas del libro
+	 * 
+	 * @param rutaImagen Ruta al directorio en el que se encuentra la imagen de
+	 *                   portada del libro
+	 * 
+	 * @param id         Id de la imagen a modificar
+	 */
 	public void modificarLibro(String titulo, String autor, String anyNac, String anyPub, String editorial,
 			String numPag, String rutaImagen, int id) {
 
@@ -305,10 +418,26 @@ public class Modelo {
 
 	}
 
+	/**
+	 * Metodo que elimnina un libro de la coleccion
+	 * 
+	 * @param id Recibe el id del titulo a eliminar
+	 */
 	public void eliminarLibro(int id) {
 		getColeccionLibros().deleteMany(Filters.eq("Id", id));
 	}
 
+	/**
+	 * Metodo para realizar diferentes consultas a la base de datos
+	 * 
+	 * @param indexCampo  Indice dentro del comboBox del campo seleccionado
+	 * 
+	 * @param indexFiltro Indice dentro del comboBox del filtro seleccionado
+	 * 
+	 * @param valor       Valor de la busqueda que introduce el usuario
+	 * 
+	 * @return libros Retorna los libros que coinciden con la consulta
+	 */
 	public ArrayList<String> consultas(int indexCampo, int indexFiltro, String valor) {
 
 		String campo = null;
@@ -381,24 +510,37 @@ public class Modelo {
 		return libros;
 	}
 
+	/**
+	 * @return coleccionUsuarios Retorna la coleccion de usuarios de la base de
+	 *         datos
+	 */
 	public MongoCollection<Document> getColeccionUsuarios() {
 		return coleccionUsuarios;
 	}
 
+	/**
+	 * @param coleccionUsuarios Recibe la coleccion de usuarios de la base de datos
+	 */
 	public void setColeccionUsuarios(MongoCollection<Document> coleccionUsuarios) {
 		this.coleccionUsuarios = coleccionUsuarios;
 	}
 
+	/**
+	 * @return coleccionLibros Retorna la coleccion de libros de la base de datos
+	 */
 	public MongoCollection<Document> getColeccionLibros() {
 		return coleccionLibros;
 	}
 
+	/**
+	 * @param coleccionLibros Recibe la coleccion de libros de la base de datos
+	 */
 	public void setColeccionLibros(MongoCollection<Document> coleccionLibros) {
 		this.coleccionLibros = coleccionLibros;
 	}
 
 	/**
-	 * @return the access
+	 * @return the access 
 	 */
 	public boolean isAccess() {
 		return access;

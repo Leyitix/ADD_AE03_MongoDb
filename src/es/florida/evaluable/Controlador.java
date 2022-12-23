@@ -20,7 +20,18 @@ public class Controlador {
 	boolean anyadir = false, modificar = false, eliminar = false, mostrar = false;
 
 	static ImageIcon imagen;
-	
+
+	/**
+	 * Metodo constructor de la clase Controlador
+	 * 
+	 * @param login  Recibe el frame para realizar el login
+	 * 
+	 * @param vista  Recibe el frame principal vista
+	 * 
+	 * @param popup  Recibe el frame que muestra los libros
+	 * 
+	 * @param modelo Recibe la clase modelo
+	 */
 	Controlador(LogIn login, Vista vista, Popup popup, Modelo modelo) {
 		this.login = login;
 		this.vista = vista;
@@ -29,8 +40,32 @@ public class Controlador {
 		control();
 	}
 
+	/**
+	 * Metodo que contiene los actionListeners que realizan la interaccion entre la
+	 * interfaz y la clase modelo
+	 * 
+	 * - actionListenerAcceder: boton que permite logear al usuario
+	 * 
+	 * - actionListenerResumen: muestra el resumen de los libros en el textArea
+	 * 
+	 * - actionListenerAnyadir: muestra el popup para anyadir un nuevo libro
+	 * 
+	 * - actionListenerModificar: muestra el popup para modificar un libro
+	 * 
+	 * - actionListenerEliminar: muestra el popup para eliminar un libro
+	 * 
+	 * - actionListenerMostrar: muestra el popup para ver un determinado libro
+	 * 
+	 * - actionListenerCancelar: boton para cancelar las acciones en el popup y
+	 * cerrar el frame
+	 * 
+	 * - actionListenerAceptar: boton para aceptar las acciones en el popup y cerrar
+	 * el frame
+	 * 
+	 * - actionListenerBuscar: boton para realizar la consulta a la base de datos
+	 */
 	public void control() {
-		
+
 		ActionListener actionListenerAcceder = new ActionListener() {
 
 			@Override
@@ -67,22 +102,22 @@ public class Controlador {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				limpiarTextInput();
-				
+
 				setAnyadir(true);
 				setModificar(false);
 				setEliminar(false);
 				setMostrar(false);
-				
+
 				popup.getLblPopup().setText("Añadir libro");
 				popup.getComboBox().hide();
 				popup.getBtnAceptar().show();
 				popup.getLblRutaImg().show();
 				popup.getTextThumbnail().show();
 				popup.getBtnCancelar().setText("Cancelar");
-				
+
 				// Default image
 				imagenPorDefecto();
-				
+
 				enable();
 				vista.anyadirPopup();
 
@@ -100,17 +135,17 @@ public class Controlador {
 				setModificar(true);
 				setEliminar(false);
 				setMostrar(false);
-				
+
 				popup.getLblPopup().setText("Modificar libro");
 				popup.getComboBox().show();
 				popup.getBtnAceptar().show();
 				popup.getLblRutaImg().show();
 				popup.getTextThumbnail().show();
 				popup.getBtnCancelar().setText("Cancelar");
-				
+
 				// Default image
 				imagenPorDefecto();
-				
+
 				enable();
 				vista.anyadirPopup();
 
@@ -124,7 +159,7 @@ public class Controlador {
 							int id = getId();
 							String[] data = modelo.cargarTextInput(id);
 							dataComboBox(data);
-							
+
 							// Image
 							try {
 								String nombreImagen = id + ".png";
@@ -133,9 +168,8 @@ public class Controlador {
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
-							
-						}
 
+						}
 
 					}
 				});
@@ -148,23 +182,22 @@ public class Controlador {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 
 				setAnyadir(false);
 				setModificar(false);
 				setEliminar(true);
 				setMostrar(false);
-				
+
 				popup.getLblPopup().setText("Eliminar libro");
 				popup.getComboBox().show();
 				popup.getBtnAceptar().show();
 				popup.getLblRutaImg().hide();
 				popup.getTextThumbnail().hide();
 				popup.getBtnCancelar().setText("Cancelar");
-				
+
 				// Default image
 				imagenPorDefecto();
-				
+
 				disable();
 				vista.anyadirPopup();
 
@@ -174,12 +207,12 @@ public class Controlador {
 				popup.getComboBox().addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
-						
+
 						if (isEliminar() == true) {
 							int id = getId();
 							String[] data = modelo.cargarTextInput(id);
 							dataComboBox(data);
-							
+
 							// Image
 							try {
 								String nombreImagen = id + ".png";
@@ -188,38 +221,36 @@ public class Controlador {
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
-							
+
 						}
-						
 
 					}
 				});
 			}
 
 		};
-		
+
 		ActionListener actionListenerMostrar = new ActionListener() {
 
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 
 				setAnyadir(false);
 				setModificar(false);
 				setEliminar(false);
 				setMostrar(true);
-				
+
 				popup.getLblPopup().setText("Mostrar libro");
 				popup.getComboBox().show();
 				popup.getBtnAceptar().hide();
 				popup.getLblRutaImg().hide();
 				popup.getTextThumbnail().hide();
 				popup.getBtnCancelar().setText("Cerrar");
-				
+
 				// Default image
 				imagenPorDefecto();
-				
+
 				disable();
 				vista.anyadirPopup();
 
@@ -229,14 +260,14 @@ public class Controlador {
 				popup.getComboBox().addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
-						
+
 						if (isMostrar() == true) {
 							disable();
 							limpiarTextInput();
 							int id = getId();
 							String[] data = modelo.cargarTextInput(id);
 							dataComboBox(data);
-							
+
 							// Image
 							try {
 								String nombreImagen = id + ".png";
@@ -245,15 +276,14 @@ public class Controlador {
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
-							
+
 						}
-						
 
 					}
 				});
-				
+
 			}
-			
+
 		};
 
 		ActionListener actionListenerCancelar = new ActionListener() {
@@ -275,7 +305,7 @@ public class Controlador {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				String titulo = popup.getTextTitulo().getText();
 				String autor = popup.getTextAutor().getText();
 				String anyNac = popup.getTextAnyoNac().getText();
@@ -303,7 +333,7 @@ public class Controlador {
 							"Modificar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 					int id = getId();
-					
+
 					if (option == 0) {
 						modelo.modificarLibro(titulo, autor, anyNac, anyPub, editorial, numPag, thumb,
 								getIdSeleccionado());
@@ -319,7 +349,7 @@ public class Controlador {
 						imagenPorDefecto();
 						popup.setVisible(false);
 						popup.dispose();
-						
+
 					} else {
 						JOptionPane.showMessageDialog(new JFrame(), "No se ha modificado el libro", "Modificar",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -328,14 +358,14 @@ public class Controlador {
 					}
 
 				}
-				
+
 				if (isEliminar() == true) {
-					
+
 					int id = getId();
-					
+
 					int option = JOptionPane.showConfirmDialog(null, "¿Estás seguro que deseas eliminar el libro?",
 							"Eliminar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					
+
 					if (option == 0) {
 						modelo.eliminarLibro(id);
 						JOptionPane.showMessageDialog(new JFrame(), "Libro eliminado con éxito", "Eliminar",
@@ -344,7 +374,7 @@ public class Controlador {
 						imagenPorDefecto();
 						popup.setVisible(false);
 						popup.dispose();
-						
+
 					} else {
 						JOptionPane.showMessageDialog(new JFrame(), "No se ha eliminado el libro", "Eliminar",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -355,46 +385,51 @@ public class Controlador {
 			}
 
 		};
-		
+
 		ActionListener actionListenerBuscar = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				vista.getTextArea().setText("");
-				
+
 				int indexCampo = vista.getComboBoxCampo().getSelectedIndex();
 				int indexFiltro = vista.getComboBoxFiltro().getSelectedIndex();
 				String valor = vista.getTextValor().getText();
-				
+
 				try {
 					ArrayList<String> consultas = modelo.consultas(indexCampo, indexFiltro, valor);
-					
+
 					for (String consulta : consultas) {
 						vista.getTextArea().append(consulta + "\n");
 					}
-					
+
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(new JFrame(), "No se encuentran coincidencias", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(new JFrame(), "No se encuentran coincidencias", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
-			
+
 		};
 
 		login.getBtnAcceder().addActionListener(actionListenerAcceder);
-		
+
 		vista.getBtnResumen().addActionListener(actionListenerResumen);
 		vista.getBtnAnyadir().addActionListener(actionListenerAnyadir);
 		vista.getBtnModificar().addActionListener(actionListenerModificar);
 		vista.getBtnEliminar().addActionListener(actionListenerEliminar);
 		vista.getBtnMostrar().addActionListener(actionListenerMostrar);
 		vista.getBtnBuscar().addActionListener(actionListenerBuscar);
-		
+
 		popup.getBtnCancelar().addActionListener(actionListenerCancelar);
 		popup.getBtnAceptar().addActionListener(actionListenerAceptar);
 
 	}
 
+	/**
+	 * Metodo que permite deshabilitar los textInput para evitar que el usuario
+	 * modifique su contenido
+	 */
 	@SuppressWarnings("deprecation")
 	public void disable() {
 		popup.getTextTitulo().disable();
@@ -406,6 +441,10 @@ public class Controlador {
 		popup.getTextThumbnail().disable();
 	}
 
+	/**
+	 * Metodo que permite habilitar los textInput para permitir que el usuario
+	 * modifique su contenido
+	 */
 	@SuppressWarnings("deprecation")
 	public void enable() {
 		popup.getTextTitulo().enable();
@@ -417,6 +456,9 @@ public class Controlador {
 		popup.getTextThumbnail().enable();
 	}
 
+	/**
+	 * Metodo que vacia los textInput de contenido
+	 */
 	public void limpiarTextInput() {
 		popup.getTextTitulo().setText("");
 		popup.getTextAutor().setText("");
@@ -427,6 +469,11 @@ public class Controlador {
 		popup.getTextThumbnail().setText("");
 	}
 
+	/**
+	 * Metodo que rellena los textInput de los datos de un libro determinado
+	 * 
+	 * @param data Recibe un array con los datos de un determinado libro
+	 */
 	public void dataComboBox(String[] data) {
 		popup.getTextTitulo().setText(data[0]);
 		popup.getTextAutor().setText(data[1]);
@@ -439,16 +486,25 @@ public class Controlador {
 		int id = Integer.parseInt(data[7]);
 		setIdSeleccionado(id);
 	}
-	
+
+	/**
+	 * Metodo que devuelve el id del libro seleccionado en el comboBox
+	 * 
+	 * @return id Id del libro seleccionado
+	 */
 	public int getId() {
 		String cadena = (String) popup.getComboBox().getSelectedItem();
 		int posicionPunto = cadena.indexOf('.');
-		String sHastaPrimerPunto = cadena.substring(0,posicionPunto);
+		String sHastaPrimerPunto = cadena.substring(0, posicionPunto);
 		int id = Integer.parseInt(sHastaPrimerPunto);
-		
+
 		return id;
 	}
-	
+
+	/**
+	 * Metodo que devuelve una imagen por defecto para mostrar cuando no haya una
+	 * imagen valida para mostrar
+	 */
 	public void imagenPorDefecto() {
 		// Default image
 		try {
@@ -514,7 +570,7 @@ public class Controlador {
 	public void setEliminar(boolean eliminar) {
 		this.eliminar = eliminar;
 	}
-	
+
 	/**
 	 * @return the mostrar
 	 */

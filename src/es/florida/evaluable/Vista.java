@@ -35,6 +35,12 @@ public class Vista extends JFrame {
 
 	private JComboBox<String> comboBoxFiltro, comboBoxCampo;
 
+	/**
+	 * Metodo que se ejecuta despues de realizar el login. Si el login devuelve true
+	 * oculta el login y muestra el frame vista
+	 * 
+	 * @param access Recibe el acceso a la aplicacion
+	 */
 	public void acceder(boolean access) {
 		if (access) {
 			login.setVisible(false);
@@ -46,13 +52,18 @@ public class Vista extends JFrame {
 		}
 	}
 
+	/**
+	 * Metodo que permite mostrar el popup con los datos de un libro
+	 */
 	public void anyadirPopup() {
 		popup.setVisible(true);
 		popup.setLocationRelativeTo(null);
 	}
 
 	/**
-	 * Launch the application.
+	 * Metodo main que lanza la aplicacion
+	 * 
+	 * @param args Recibe los argumentos de la aplicacion
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -83,7 +94,7 @@ public class Vista extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Metodo que crea el frame principal de la aplicacion
 	 */
 	public Vista() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -193,7 +204,7 @@ public class Vista extends JFrame {
 		separator_2_1.setForeground(Color.BLACK);
 		separator_2_1.setBounds(10, 460, 716, 2);
 		contentPane.add(separator_2_1);
-		
+
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 13));
 		btnBuscar.setBounds(10, 411, 197, 23);
@@ -236,21 +247,22 @@ public class Vista extends JFrame {
 	}
 
 	/**
-	 * @return the btnMostrarLibro
+	 * @return btnMostrarLibro
 	 */
 	public JButton getBtnMostrar() {
 		return btnMostrar;
 	}
 
 	/**
-	 * @return the comboBoxFiltro
+	 * @return comboBoxFiltro
 	 */
 	public JComboBox<String> getComboBoxFiltro() {
 		return comboBoxFiltro;
 	}
 
 	/**
-	 * @param comboBoxFiltro the comboBoxFiltro to set
+	 * Metodo que setea el combobox con los filtros para realizar la consulta a la
+	 * base de datos
 	 */
 	public void setComboBoxFiltro() {
 		JComboBox<String> combo = getComboBoxFiltro();
@@ -260,14 +272,14 @@ public class Vista extends JFrame {
 	}
 
 	/**
-	 * @return the comboBoxCampo
+	 * @return comboBoxCampo
 	 */
 	public JComboBox<String> getComboBoxCampo() {
 		return comboBoxCampo;
 	}
 
 	/**
-	 * @param comboBoxCampo the comboBoxCampo to set
+	 * Metodo que setea el combobox con los campos de la base de datos
 	 */
 	public void setComboBoxCampo() {
 		JComboBox<String> combo = getComboBoxCampo();
@@ -287,7 +299,6 @@ public class Vista extends JFrame {
 	public JTextField getTextValor() {
 		return textValor;
 	}
-	
 
 	/**
 	 * @return the btnBuscar

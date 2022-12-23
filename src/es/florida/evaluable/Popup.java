@@ -35,7 +35,7 @@ public class Popup extends JFrame {
 	JLabel lblRutaImg;
 
 	/**
-	 * Create the frame.
+	 * Metodo que crea el popup para ver los datos de un libro
 	 */
 	public Popup() {
 		setBounds(100, 100, 751, 433);
@@ -142,7 +142,7 @@ public class Popup extends JFrame {
 		comboBox.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 13));
 		comboBox.setBounds(34, 45, 431, 22);
 		contentPane.add(comboBox);
-		
+
 		lblImage = new JLabel();
 		lblImage.setBounds(491, 45, 222, 326);
 		contentPane.add(lblImage);
@@ -163,7 +163,7 @@ public class Popup extends JFrame {
 	}
 
 	/**
-	 * @param comboBox the comboBox to set
+	 * @param libros Recibe la coleccion de libros para mostrar en el comboBox
 	 */
 	public void setComboBox(ArrayList<String> libros) {
 
@@ -173,7 +173,7 @@ public class Popup extends JFrame {
 			model.addElement(libro);
 		}
 		combo.setModel(model);
-		
+
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class Popup extends JFrame {
 	public void setBtnCancelar(JButton btnCancelar) {
 		this.btnCancelar = btnCancelar;
 	}
-	
+
 	/**
 	 * @return the lblImage
 	 */
