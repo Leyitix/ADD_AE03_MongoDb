@@ -1,0 +1,13 @@
+{
+  "IP": "",
+  "puerto": 27017,
+  "baseDatos": "Biblioteca",
+  "colecciones": [
+    {
+      "coleccion": "Libros"
+    },
+    {
+      "coleccion": "Usuarios"
+    }
+  ]
+}
